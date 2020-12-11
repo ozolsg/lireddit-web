@@ -10,6 +10,8 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
   let body = null;
 
+  console.log("data:", data);
+
   // data is loading
   if (fetching) {
     // user not logged in
