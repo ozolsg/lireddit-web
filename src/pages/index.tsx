@@ -11,7 +11,7 @@ const Index = () => {
       <div>Hello world</div>
       <br />
       {!data ? (
-        <div>Loading...</div>
+        <div>loading...</div>
       ) : (
         data.posts.map((p) => <div key={p.id}>{p.title}</div>)
       )}

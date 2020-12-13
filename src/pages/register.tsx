@@ -17,11 +17,11 @@ const Register: React.FC<registerProps> = ({}) => {
   return (
     <Wrapper variant="small">
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ username: "", email: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
           // Here we are passing parameters into mutation. Values passed are the same object as
           // arguments, otherwise ({username:values.username} etc)
-          const response = await register(values);
+          const response = await register({ options: values });
           if (response.data?.register.errors) {
             // setting errors on UI from back-end
             setErrors(toErrorMap(response.data.register.errors));
@@ -39,6 +39,9 @@ const Register: React.FC<registerProps> = ({}) => {
               label="Username"
             />
             <Box mt={4}>
+              <InputField name="email" placeholder="email" label="Email" />
+            </Box>
+            <Box mt={4}>
               <InputField
                 name="password"
                 placeholder="username"
@@ -52,7 +55,7 @@ const Register: React.FC<registerProps> = ({}) => {
               type="submit"
               colorScheme="teal"
             >
-              Register
+              register
             </Button>
           </Form>
         )}
