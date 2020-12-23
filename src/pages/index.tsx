@@ -16,7 +16,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
   const [variables, setVariables] = React.useState({
-    limit: 10,
+    limit: 15,
     cursor: null as null | string,
   });
   const [{ data, fetching }] = usePostsQuery({
@@ -49,7 +49,12 @@ const Index = () => {
               borderRadius="md"
               borderColor="lightgray"
             >
-              <Heading fontSize="xl">{p.title}</Heading>
+              <Flex>
+                <Heading fontSize="xl">{p.title}</Heading>{" "}
+                <Text color="grey" ml={4}>
+                  @{p.creator.username}
+                </Text>
+              </Flex>
               <Text mt={4}>{p.textSnippet}</Text>
             </Box>
           ))}
