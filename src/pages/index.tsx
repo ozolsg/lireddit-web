@@ -10,6 +10,7 @@ import {
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
 import React from "react";
+import { EditDeletePostButtons } from "../components/EditDeletePostButtons";
 import { Layout } from "../components/Layout";
 import { UpdootSection } from "../components/UpdootSection";
 import { usePostsQuery } from "../generated/graphql";
@@ -30,36 +31,41 @@ const Index = () => {
 
   return (
     <Layout>
-      <Flex align="center">
-        <Heading>LiReddit</Heading>
-        <NextLink href="/create-post">
-          <Link ml="auto">create post</Link>
-        </NextLink>
-      </Flex>
-      <br />
       {!data && fetching ? (
         <div>loading...</div>
       ) : (
         <Stack spacing={8}>
-          {data!.posts.posts.map((p) => (
-            <Flex
-              key={p.id}
-              p={5}
-              shadow="md"
-              borderWidth="1px"
-              borderRadius="md"
-              borderColor="lightgray"
-            >
-              <UpdootSection post={p} />
-              <Box>
-                <Heading fontSize="xl">{p.title}</Heading>
-                <Text color="grey" ml={4}>
-                  @{p.creator.username}
-                </Text>
-                <Text mt={4}>{p.textSnippet}</Text>
-              </Box>
-            </Flex>
-          ))}
+          {data!.posts.posts.map((p) =>
+            !p ? null : (
+              <Flex
+                key={p.id}
+                p={5}
+                shadow="md"
+                borderWidth="1px"
+                borderRadius="md"
+                borderColor="lightgray"
+              >
+                <UpdootSection post={p} />
+                <Box flex={1}>
+                  <NextLink href="/post/[id]" as={`/post/${p.id}`}>
+                    <Link>
+                      <Heading fontSize="xl">{p.title}</Heading>
+                    </Link>
+                  </NextLink>
+                  <Text color="grey">@{p.creator.username}</Text>
+                  <Flex align="center">
+                    <Text mt={4}>{p.textSnippet}</Text>
+                    <Box ml="auto">
+                      <EditDeletePostButtons
+                        creatorId={p.creator.id}
+                        id={p.id}
+                      />
+                    </Box>
+                  </Flex>
+                </Box>
+              </Flex>
+            )
+          )}
         </Stack>
       )}
       {data && data.posts.hasMore ? (
