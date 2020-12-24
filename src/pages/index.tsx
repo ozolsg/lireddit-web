@@ -52,7 +52,11 @@ const Index = () => {
             >
               <UpdootSection post={p} />
               <Box>
-                <Heading fontSize="xl">{p.title}</Heading>
+                <NextLink href="/post/[id]" as={`/post/${p.id}`}>
+                  <Link>
+                    <Heading fontSize="xl">{p.title}</Heading>
+                  </Link>
+                </NextLink>
                 <Text color="grey" ml={4}>
                   @{p.creator.username}
                 </Text>
